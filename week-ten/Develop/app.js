@@ -7,24 +7,25 @@ const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
-
 const render = require("./lib/htmlRenderer");
+
+const team = [];
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
 // parent (manager) class
-function managerInfo () {
+function promptUser() {
     inquirer.prompt([
     {
         type: "input",
-        message: "Manager's Name";
+        message: "Manager's Name",
         name: "managerName"
     },
     {
         type: "input",
         message: "Manager ID",
-        name: "id"
+        name: "managerId"
     },
     {
         type: "input",
@@ -37,27 +38,36 @@ function managerInfo () {
         name: "officeNumber"
     }
 
-    ])
-}
+    ]).then(answer => {
+        const managerName = answer.managerName;
+        const managerId = answer.managerId;
+        const managerEmail = answer.managerEmail;
+        const officeNumber = answer.officeNumber;
+        const manager = new Manager (managerName, managerId, managerEmail, officeNumber);
+        team.push(manager);
+        console.log("Add Additional Employees")
+        addEmployee ();
+    }
+    )};
 
-// employee info
-function employeeInfo () {
+// employee (engineer, intern) info
+function addEmployee () {
     inquirer.prompt([
     {
         type:"list",
         message: "Team Role",
         name: "role",
         choices: ["Engineer", "Intern"]
-    }
+    },
     {
         type:"input",
         message: "Employee's Name",
-        name: "name",
+        name: "name"
     },
     {
         type:"input",
         message: "Employee's Email",
-        name: "email",
+        name: "email"
     },
     {
         type: "input",
@@ -70,9 +80,10 @@ function employeeInfo () {
         message: "What School did the Intern Attend?",
         name: "school",
         when: (userInput) => userInput.role === "Intern"
-    }
+    },
+    ])
+}
 
-]
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
@@ -91,4 +102,4 @@ function employeeInfo () {
 // and Intern classes should all extend from a class named Employee; see the directions
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
+/// for the provided `render` function to work! 
