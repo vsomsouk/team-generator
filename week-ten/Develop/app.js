@@ -66,6 +66,11 @@ function addEmployee () {
     },
     {
         type:"input",
+        message: "Employee ID Number",
+        name: "id"
+    },
+    {
+        type:"input",
         message: "Employee's Email",
         name: "email"
     },
@@ -84,15 +89,17 @@ function addEmployee () {
     ]).then(answer => {
         if (answer.role === "Engineer") {
             const engineerName = answer.name;
+            const engineerID = answer.id;
             const engineerEmail = answer.email;
             const engineerGithub = answer.github;
-            const engineer = new engineer(engineerName, engineerEmail, engineerGithub);
+            const engineer = new engineer(engineerName, engineerID, engineerEmail, engineerGithub);
             team.push(engineer);       
     } else if (answer.role === "Intern") {
             const internName = answer.name;
+            const internID = answer.id;
             const internEmail = answer.email;
             const internSchool = answer.school;
-            const intern = new intern(internName, internEmail, internSchool);
+            const intern = new intern(internName, internID, internEmail, internSchool);
             team.push(intern);
     }
     }
