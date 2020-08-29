@@ -77,24 +77,24 @@ function promptUser() {
             const engineerEmail = answer.email;
             const engineerGithub = answer.github;
             const engineer = new engineer(engineerName, engineerID, engineerEmail, engineerGithub);
-            team.push(engineer);       
+            team.push(engineer);    
+
     } else if (answer.role === "Intern") {
             const internName = answer.name;
             const internID = answer.id;
             const internEmail = answer.email;
             const internSchool = answer.school;
-            const intern = new intern(internName, internID, internEmail, internSchool);
+            const intern = new intern(internName, internID, internEmail, internSchool);       
             team.push(intern);
     }
     }
-    )
+    );
+
 //call createteam function
     function createTeam () {
      fs.writeFileSync(outputPath, render(team), "utf8")
-    }
-
-
-  }
+    };
+  };
 
   promptUser();
 
