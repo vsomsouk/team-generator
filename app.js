@@ -58,6 +58,7 @@ function promptUser() {
         message: "Employee's Email",
         name: "email"
     },
+    
     {
         type: "input",
         message: "What is the Engineer's GitHub Username?",
@@ -76,8 +77,20 @@ function promptUser() {
         name: "addAnother",
         choices: ["Engineer", "Intern", "Done"]
     }
+    
     ]).then(answer => {
-        if (answer.role === "Engineer") {
+      if (answer.role === "Engineer") {
+        const managerName = answer.name;
+        const managerID = answer.id;
+        const managerEmail = answer.email;
+        const managerOfficeNumber = answer.github;
+        const managerRole = answer.role;
+        const manager = new Manager (managerName, managerID, managerEmail, managerOfficeNumber, managerRole);
+        team.push(Manager);  
+        if(answer.addAnother === "Engineer") {
+          promptUser();
+
+        }  else if (answer.role === "Engineer") {
             const engineerName = answer.name;
             const engineerID = answer.id;
             const engineerEmail = answer.email;
@@ -88,7 +101,6 @@ function promptUser() {
             if(answer.addAnother === "Engineer") {
               promptEngineer();
             }  
-
     } else if (answer.role === "Intern") {
             const internName = answer.name;
             const internID = answer.id;
