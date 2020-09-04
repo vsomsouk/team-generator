@@ -11,8 +11,6 @@ const render = require("./lib/htmlRenderer");
 
 const team = [];
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
 
 // prompt user for which role they would like
 function promptUser() {
@@ -24,79 +22,47 @@ function promptUser() {
         choices: ["Manager","Engineer", "Intern", "Done"]
       },
     ])
-   
+   .then(answer => {
 //once user selects role, prompt questions for the role they chose.
 if (answer.role === "Manager") {
   promptManager()
-  .then(answer => {
-        const managerName = answer.name;
-        const managerID = answer.id;
-        const managerEmail = answer.email;
-        const managerOfficeNumber = answer.officeNumber;
-        const managerRole = answer.role;
-        const manager = new Manager(managerName, managerID, managerEmail, managerOfficeNumber, managerRole);
-        team.push(manager);  
-      }
-    );
+
 } 
 else if(answer.role === "Engineer") {
   promptEngineer()
-  .then(answer => {
-    if (answer.role === "Engineer") {
-        const engineerName = answer.name;
-        const engineerID = answer.id;
-        const engineerEmail = answer.email;
-        const engineerGithub = answer.github;
-        const engineerRole = answer.role;
-        const engineer = new Engineer(engineerName, engineerID, engineerEmail, engineerGithub, engineerRole);
-        team.push(engineer);  
- }
-});
-} 
+  //console.log(team, "engineering testing again")
+
+}
+
 else if(answer.role === "Intern"){
   promptIntern()
-  .then(answer => {
-    if (answer.role === "Intern") {
-    const internName = answer.name;
-    const internID = answer.id;
-    const internEmail = answer.email;
-    const internSchool = answer.school;
-    const internRole = answer.role;
-    const intern = new Intern(internName, internID, internEmail, internSchool, internRole);       
-    team.push(intern);
-        }
-  });  
+  console.log(team)
+
 }
 else if(answer.role === "Done"){
-//call createteam function
-//if user chooses done, create html file
-function createTeam () {
-  fs.writeFileSync(outputPath, render(team), "utf8")
- };
-
- createTeam();
+createTeam();
+console.log(team);
 }
-
+});
 
 
 // prompt manager
-
 function promptManager() {
   inquirer.prompt([
     {
         type: "input",
         message: "Manager's Name",
-        name: "managerName"
+        name: "name"
     },
     {
         type: "input",
         message: "Manager ID",
-        name: "managerId"
+        name: "id"
     },
     {
         type: "input",
         message: "Manager's Email",
-        name: "managerEmail"
+        name: "email"
     },
     {
         type: "input",
@@ -104,7 +70,20 @@ function promptManager() {
         name: "officeNumber"
     },
   ])
-        promptUser();
+  .then(answer => {
+    const managerName = answer.name;
+    const managerId = answer.id;
+    const managerEmail = answer.email;
+    const managerOfficeNumber = answer.officeNumber;
+    const managerRole = answer.role;
+    const manager = new Manager(managerName, managerId, managerEmail, managerOfficeNumber, managerRole);
+    team.push(manager);  
+
+    createTeam();
+    promptUser();
+  }
+);
+
  };
 
 
@@ -132,9 +111,19 @@ function promptEngineer() {
       name: "github",
   },
   ])
-      promptUser();
-}
+  .then(answer => {
+        const engineerName = answer.name;
+        const engineerID = answer.id;
+        const engineerEmail = answer.email;
+        const engineerGithub = answer.github;
+        const engineerRole = answer.role;
+        const engineer = new Engineer(engineerName, engineerID, engineerEmail, engineerGithub, engineerRole);
+        team.push(engineer);  
 
+       createTeam();
+       promptUser();
+});
+};
 //prompt intern
 function promptIntern() {
   inquirer.prompt([
@@ -159,12 +148,27 @@ function promptIntern() {
       name: "school",
   },  
  ])
-      promptUser();
-};
+ .then(answer => {
 
+  const internName = answer.name;
+  const internID = answer.id;
+  const internEmail = answer.email;
+  const internSchool = answer.school;
+  const internRole = answer.role;
+  const intern = new Intern(internName, internID, internEmail, internSchool, internRole);       
+  team.push(intern);
+
+  createTeam();
+  promptUser();
+}); 
+};
 };
   promptUser();
 
+//write html file
+function createTeam () {
+  fs.writeFileSync(outputPath, render(team), "utf8")
+ };
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
