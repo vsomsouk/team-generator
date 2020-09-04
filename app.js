@@ -14,9 +14,21 @@ const team = [];
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
-// parent (manager) class
+// prompt user for which role they would like
 function promptUser() {
     inquirer.prompt([
+       {
+        type:"list",
+        message: "Which role would you like to add?",
+        name: "role",
+        choices: ["Manager","Engineer", "Intern"]
+      },
+    ])
+   
+
+// prompt manager
+function promptManager() {
+  inquirer.prompt([
     {
         type: "input",
         message: "Manager's Name",
@@ -37,60 +49,68 @@ function promptUser() {
         message: "Manager's Office Number",
         name: "officeNumber"
     },
-    {
-        type:"list",
-        message: "Team Role to Add",
-        name: "role",
-        choices: ["Engineer", "Intern"]
-    },
-    {
-        type:"input",
-        message: "Employee's Name",
-        name: "name"
-    },
-    {
-        type:"input",
-        message: "Employee ID Number",
-        name: "id"
-    },
-    {
-        type:"input",
-        message: "Employee's Email",
-        name: "email"
-    },
-    
-    {
-        type: "input",
-        message: "What is the Engineer's GitHub Username?",
-        name: "github",
-        when: (userInput) => userInput.role === "Engineer"
-    },
-    {
-        type: "input",
-        message: "What School did the Intern Attend?",
-        name: "school",
-        when: (userInput) => userInput.role === "Intern"
-    },
-    {
+  ])
+}
+
+// prompt engineer
+function promptEngineer() {
+  inquirer.prompt([
+  {
+      type:"input",
+      message: "Employee's Name",
+      name: "name"
+  },
+  {
+      type:"input",
+      message: "Employee ID Number",
+      name: "id"
+  },
+  {
+      type:"input",
+      message: "Employee's Email",
+      name: "email"
+  },
+  {
+      type: "input",
+      message: "What is the Engineer's GitHub Username?",
+      name: "github",
+  },
+  ])
+}
+
+//prompt intern
+function promptIntern() {
+  inquirer.prompt([
+  {
+      type:"input",
+      message: "Employee's Name",
+      name: "name"
+  },
+  {
+      type:"input",
+      message: "Employee ID Number",
+      name: "id"
+  },
+  {
+      type:"input",
+      message: "Employee's Email",
+      name: "email"
+  },
+  {
+      type: "input",
+      message: "What is the Engineer's GitHub Username?",
+      name: "github",
+  },   
+ ])
+}   
+    /*{
         type:"list",
         message: "Would you like to add another role?",
         name: "addAnother",
         choices: ["Engineer", "Intern", "Done"]
     }
-    
     ]).then(answer => {
-      if (answer.role === "Engineer") {
-        const managerName = answer.name;
-        const managerID = answer.id;
-        const managerEmail = answer.email;
-        const managerOfficeNumber = answer.github;
-        const managerRole = answer.role;
-        const manager = new Manager (managerName, managerID, managerEmail, managerOfficeNumber, managerRole);
-        team.push(Manager);  
-        if(answer.addAnother === "Engineer") {
-          promptUser();
-
-        }  else if (answer.role === "Engineer") {
+        if (answer.role === "Engineer") {
             const engineerName = answer.name;
             const engineerID = answer.id;
             const engineerEmail = answer.email;
@@ -101,6 +121,7 @@ function promptUser() {
             if(answer.addAnother === "Engineer") {
               promptEngineer();
             }  
+
     } else if (answer.role === "Intern") {
             const internName = answer.name;
             const internID = answer.id;
@@ -208,7 +229,7 @@ function promptIntern() {
     });
   };
 
-
+*/
 //call createteam function
     function createTeam () {
      fs.writeFileSync(outputPath, render(team), "utf8")
