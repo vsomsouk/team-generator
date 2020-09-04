@@ -26,6 +26,8 @@ function promptUser() {
     ])
    
 
+    
+
 // prompt manager
 function promptManager() {
   inquirer.prompt([
@@ -75,6 +77,12 @@ function promptEngineer() {
       message: "What is the Engineer's GitHub Username?",
       name: "github",
   },
+  {
+    type:"list",
+    message: "Would you like to add another role?",
+    name: "addAnother",
+    choices: ["Engineer", "Intern", "Done"]
+}
   ])
 }
 
@@ -100,15 +108,16 @@ function promptIntern() {
       type: "input",
       message: "What is the Engineer's GitHub Username?",
       name: "github",
-  },   
+  },  
+  {
+    type:"list",
+    message: "Would you like to add another role?",
+    name: "addAnother",
+    choices: ["Engineer", "Intern", "Done"]
+} 
  ])
 }   
-    /*{
-        type:"list",
-        message: "Would you like to add another role?",
-        name: "addAnother",
-        choices: ["Engineer", "Intern", "Done"]
-    }
+/*
     ]).then(answer => {
         if (answer.role === "Engineer") {
             const engineerName = answer.name;
