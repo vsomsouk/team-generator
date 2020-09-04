@@ -21,25 +21,66 @@ function promptUser() {
         type:"list",
         message: "Which role would you like to add?",
         name: "role",
-        choices: ["Manager","Engineer", "Intern"]
+        choices: ["Manager","Engineer", "Intern", "Done"]
       },
     ])
    
 //once user selects role, prompt questions for the role they chose.
 if (answer.role === "Manager") {
-  console.log("You picked Manager")
+  promptManager()
+  .then(answer => {
+        const managerName = answer.name;
+        const managerID = answer.id;
+        const managerEmail = answer.email;
+        const managerOfficeNumber = answer.officeNumber;
+        const managerRole = answer.role;
+        const manager = new Manager(managerName, managerID, managerEmail, managerOfficeNumber, managerRole);
+        team.push(manager);  
+      }
+    );
 } 
 else if(answer.role === "Engineer") {
-  console.log("You picked Engineer")
+  promptEngineer()
+  .then(answer => {
+    if (answer.role === "Engineer") {
+        const engineerName = answer.name;
+        const engineerID = answer.id;
+        const engineerEmail = answer.email;
+        const engineerGithub = answer.github;
+        const engineerRole = answer.role;
+        const engineer = new Engineer(engineerName, engineerID, engineerEmail, engineerGithub, engineerRole);
+        team.push(engineer);  
+ }
+});
 } 
 else if(answer.role === "Intern"){
-  console.log("You picked Intern")
+  promptIntern()
+  .then(answer => {
+    if (answer.role === "Intern") {
+    const internName = answer.name;
+    const internID = answer.id;
+    const internEmail = answer.email;
+    const internSchool = answer.school;
+    const internRole = answer.role;
+    const intern = new Intern(internName, internID, internEmail, internSchool, internRole);       
+    team.push(intern);
+        }
+  });  
+}
+else if(answer.role === "Done"){
+//call createteam function
+//if user chooses done, create html file
+function createTeam () {
+  fs.writeFileSync(outputPath, render(team), "utf8")
+ };
+
+ createTeam();
 }
 
 
-} 
-promptUser();
+
 // prompt manager
+
 function promptManager() {
   inquirer.prompt([
     {
@@ -63,21 +104,8 @@ function promptManager() {
         name: "officeNumber"
     },
   ])
-.then(answer => {
-  if (answer.role === "Manager") {
-      const managerName = answer.name;
-      const managerID = answer.id;
-      const managerEmail = answer.email;
-      const managerOfficeNumber = answer.officeNumber;
-      const managerRole = answer.role;
-      const manager = new Manager(managerName, managerID, managerEmail, managerOfficeNumber, managerRole);
-      team.push(manager);  
-      /*if(answer.addAnother === "Manager") {
         promptUser();
-      } */
-    }
-  });
- }
+ };
 
 
 // prompt engineer
@@ -103,28 +131,10 @@ function promptEngineer() {
       message: "What is the Engineer's GitHub Username?",
       name: "github",
   },
-  {
-    type:"list",
-    message: "Would you like to add another role?",
-    name: "addAnother",
-    choices: ["Engineer", "Intern", "Done"]
-}
   ])
-  .then(answer => {
-    if (answer.role === "Engineer") {
-        const engineerName = answer.name;
-        const engineerID = answer.id;
-        const engineerEmail = answer.email;
-        const engineerGithub = answer.github;
-        const engineerRole = answer.role;
-        const engineer = new Engineer(engineerName, engineerID, engineerEmail, engineerGithub, engineerRole);
-        team.push(engineer);  
-        /*if(answer.addAnother === "Engineer") {
-          promptEngineer();
-        } */
- }
-});
+      promptUser();
 }
+
 //prompt intern
 function promptIntern() {
   inquirer.prompt([
@@ -148,162 +158,11 @@ function promptIntern() {
       message: "What school did the Intern attend?",
       name: "school",
   },  
-  {
-    type:"list",
-    message: "Would you like to add another role?",
-    name: "addAnother",
-    choices: ["Engineer", "Intern", "Done"]
-} 
  ])
- .then(answer => {
-  if (answer.role === "Intern") {
-  const internName = answer.name;
-  const internID = answer.id;
-  const internEmail = answer.email;
-  const internSchool = answer.school;
-  const internRole = answer.role;
-  const intern = new Intern(internName, internID, internEmail, internSchool, internRole);       
-  team.push(intern);
-  /*if(answer.addAnother === "Intern") {
-    promptIntern();
-        } */
-      }
-});   
+      promptUser();
+};
 
-
-
-/*
-    ]).then(answer => {
-        if (answer.role === "Engineer") {
-            const engineerName = answer.name;
-            const engineerID = answer.id;
-            const engineerEmail = answer.email;
-            const engineerGithub = answer.github;
-            const engineerRole = answer.role;
-            const engineer = new Engineer(engineerName, engineerID, engineerEmail, engineerGithub, engineerRole);
-            team.push(engineer);  
-            if(answer.addAnother === "Engineer") {
-              promptEngineer();
-            }  
-
-    } else if (answer.role === "Intern") {
-            const internName = answer.name;
-            const internID = answer.id;
-            const internEmail = answer.email;
-            const internSchool = answer.school;
-            const internRole = answer.role;
-            const intern = new Intern(internName, internID, internEmail, internSchool, internRole);       
-            team.push(intern);
-            if(answer.addAnother === "Intern") {
-              promptIntern();
-            }
-    }
-    });
-
-
-
-    function promptEngineer() {
-      inquirer.prompt([
-      {
-          type:"input",
-          message: "Employee's Name",
-          name: "name"
-      },
-      {
-          type:"input",
-          message: "Employee ID Number",
-          name: "id"
-      },
-      {
-          type:"input",
-          message: "Employee's Email",
-          name: "email"
-      },
-      {
-          type: "input",
-          message: "What is the Engineer's GitHub Username?",
-          name: "github",
-          when: (userInput) => userInput.role === "Engineer"
-      },
-      {
-          type:"list",
-          message: "Would you like to add another role?",
-          name: "addAnother",
-          choices: ["Engineer", "Intern", "Done"]
-      }
-      ]).then(answer => {
-          if (answer.role === "Engineer") {
-              const engineerName = answer.name;
-              const engineerID = answer.id;
-              const engineerEmail = answer.email;
-              const engineerGithub = answer.github;
-              const engineerRole = answer.role;
-              const engineer = new Engineer(engineerName, engineerID, engineerEmail, engineerGithub, engineerRole);
-              team.push(engineer);  
-              if(answer.addAnother === "Engineer") {
-                promptEngineer();
-              }  
-      }  
-    }
-  )};   
-
-    
-function promptIntern() {
-      inquirer.prompt([
-      {
-          type:"input",
-          message: "Employee's Name",
-          name: "name"
-      },
-      {
-          type:"input",
-          message: "Employee ID Number",
-          name: "id"
-      },
-      {
-          type:"input",
-          message: "Employee's Email",
-          name: "email"
-      },
-      {
-          type: "input",
-          message: "What is the Engineer's GitHub Username?",
-          name: "github",
-          when: (userInput) => userInput.role === "Intern"
-      },
-      {
-          type:"list",
-          message: "Would you like to add another role?",
-          name: "addAnother",
-          choices: ["Engineer", "Intern", "Done"]
-      }
-      ]).then(answer => {
-        if (answer.role === "Intern") {
-        const internName = answer.name;
-        const internID = answer.id;
-        const internEmail = answer.email;
-        const internSchool = answer.school;
-        const internRole = answer.role;
-        const intern = new Intern(internName, internID, internEmail, internSchool, internRole);       
-        team.push(intern);
-        if(answer.addAnother === "Intern") {
-          promptIntern();
-              }  
-      }      
-    });
-  };
-
-*/
-//call createteam function
-    function createTeam () {
-     fs.writeFileSync(outputPath, render(team), "utf8")
-    };
-
-    createTeam();
-
-  }
-  /*};
-
+};
   promptUser();
 
 
