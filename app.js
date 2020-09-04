@@ -25,9 +25,20 @@ function promptUser() {
       },
     ])
    
+//once user selects role, prompt questions for the role they chose.
+if (answer.role === "Manager") {
+  console.log("You picked Manager")
+} 
+else if(answer.role === "Engineer") {
+  console.log("You picked Engineer")
+} 
+else if(answer.role === "Intern"){
+  console.log("You picked Intern")
+}
 
-    
 
+} 
+promptUser();
 // prompt manager
 function promptManager() {
   inquirer.prompt([
@@ -52,7 +63,22 @@ function promptManager() {
         name: "officeNumber"
     },
   ])
-}
+.then(answer => {
+  if (answer.role === "Manager") {
+      const managerName = answer.name;
+      const managerID = answer.id;
+      const managerEmail = answer.email;
+      const managerOfficeNumber = answer.officeNumber;
+      const managerRole = answer.role;
+      const manager = new Manager(managerName, managerID, managerEmail, managerOfficeNumber, managerRole);
+      team.push(manager);  
+      /*if(answer.addAnother === "Manager") {
+        promptUser();
+      } */
+    }
+  });
+ }
+
 
 // prompt engineer
 function promptEngineer() {
@@ -84,8 +110,21 @@ function promptEngineer() {
     choices: ["Engineer", "Intern", "Done"]
 }
   ])
+  .then(answer => {
+    if (answer.role === "Engineer") {
+        const engineerName = answer.name;
+        const engineerID = answer.id;
+        const engineerEmail = answer.email;
+        const engineerGithub = answer.github;
+        const engineerRole = answer.role;
+        const engineer = new Engineer(engineerName, engineerID, engineerEmail, engineerGithub, engineerRole);
+        team.push(engineer);  
+        /*if(answer.addAnother === "Engineer") {
+          promptEngineer();
+        } */
+ }
+});
 }
-
 //prompt intern
 function promptIntern() {
   inquirer.prompt([
@@ -106,8 +145,8 @@ function promptIntern() {
   },
   {
       type: "input",
-      message: "What is the Engineer's GitHub Username?",
-      name: "github",
+      message: "What school did the Intern attend?",
+      name: "school",
   },  
   {
     type:"list",
@@ -116,7 +155,23 @@ function promptIntern() {
     choices: ["Engineer", "Intern", "Done"]
 } 
  ])
-}   
+ .then(answer => {
+  if (answer.role === "Intern") {
+  const internName = answer.name;
+  const internID = answer.id;
+  const internEmail = answer.email;
+  const internSchool = answer.school;
+  const internRole = answer.role;
+  const intern = new Intern(internName, internID, internEmail, internSchool, internRole);       
+  team.push(intern);
+  /*if(answer.addAnother === "Intern") {
+    promptIntern();
+        } */
+      }
+});   
+
+
+
 /*
     ]).then(answer => {
         if (answer.role === "Engineer") {
@@ -245,7 +300,9 @@ function promptIntern() {
     };
 
     createTeam();
-  };
+
+  }
+  /*};
 
   promptUser();
 
