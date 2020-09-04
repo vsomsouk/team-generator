@@ -13,14 +13,13 @@ MIT
 
 ## Tests
 * npm run test
-<img src="./assets/test.JPG">
+<img src="/assets/test.jpg">
 
 ## Screenshot
-<img src="./assets/team.JPG">
+<img src="/assets/team.jpg">
 
 
 ## Questions:
 If you have any questions, please feel free to email me at vsomsouk@gmail.com.
 
-<img src="./src/bioimg.jpg" width="200" height="200">
 
