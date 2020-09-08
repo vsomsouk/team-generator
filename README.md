@@ -19,7 +19,7 @@ MIT
 <img src="./Assets/team.JPG">
 
 ## Demo
-<img src="./assets/demo.gif">
+<img src="./Assets/demo.gif">
 
 ## Questions:
 If you have any questions, please feel free to email me at vsomsouk@gmail.com.
