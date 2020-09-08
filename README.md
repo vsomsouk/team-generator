@@ -18,6 +18,8 @@ MIT
 ## Screenshot
 <img src="./assets/team.JPG">
 
+## Demo
+<img src="./assets/demo.gif">
 
 ## Questions:
 If you have any questions, please feel free to email me at vsomsouk@gmail.com.
